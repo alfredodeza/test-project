@@ -68,6 +68,7 @@ jobs:
         with:
           inlineScript: |
             az webapp config set --resource-group ${{ env.AZURE_GROUP_NAME }} --name ${{ env.AZURE_WEBAPP_NAME }} --startup-file "gunicorn -w 2 -k uvicorn.workers.UvicornWorker webapp.main:app"
+            az webapp config appsettings set -g ${{ env.AZURE_GROUP_NAME }} -n ${{ env.AZURE_WEBAPP_NAME }} --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
