@@ -67,7 +67,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az webapp config set --resource-group ${{ env.AZURE_GROUP_NAME }} --name ${{ env.AZURE_WEBAPP_NAME }} --startup-file "uvicorn --host 0.0.0.0 webapp.main:app"
+            az webapp config set --resource-group ${{ env.AZURE_GROUP_NAME }} --name ${{ env.AZURE_WEBAPP_NAME }} --startup-file "gunicorn -w 2 -k uvicorn.workers.UvicornWorker webapp.main:app"
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
